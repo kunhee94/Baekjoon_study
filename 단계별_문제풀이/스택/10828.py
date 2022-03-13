@@ -1,32 +1,33 @@
 import sys
-sys.stdin = open("input.txt", "r")
-#  왜 시간초과가 나지?
-T = int(input())
-stack = []
 
+T = int(sys.stdin.readline().rstrip())
+stack = [0]*10001
+top = -1
 for tc in range(T):
-    order = input()
-    # push 일 경우
-    if order[0:4] == "push":
-        stack.append(int(order[5:]))
+    order = sys.stdin.readline().rstrip()
     # pop일 경우 비어있으면 -1 출력 아니면 스택의 top을 pop
-    elif order == "pop":
-        # 안비었으면 pop
-        if stack:
-            print(stack.pop())
-        else:
+    if order == "pop":
+        if top == -1:
             print(-1)
+        else:
+            print(stack[top])
+            top -= 1
     # size인 경우
     elif order == "size":
-        print(len(stack))
+        print(top + 1)
     # empty
     elif order == "empty":
-        if stack:
-            print(0)
-        else:
+        if top == -1:
             print(1)
-    else:
-        if stack:
-            print(stack[-1])
         else:
+            print(0)
+    elif order == "top":
+        if top == -1:
             print(-1)
+        else:
+            print(stack[top])
+    # push 일 경우
+    else:
+        top += 1
+        stack[top] = order[5:]
+
