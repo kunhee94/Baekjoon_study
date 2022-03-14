@@ -1,6 +1,8 @@
 import sys
 sys.stdin =open("input.txt", "r")
 sys.setrecursionlimit(2000)
+
+# 내가짠거
 def DFS(gr,start):
     # 방문한적 없다면 방문체크
     if start not in visited:
@@ -15,6 +17,12 @@ def DFS(gr,start):
     # 각 노드에 연결된거 하나씩 돈다
         for i in range(len(gr[start])):
             DFS(gr, gr[start][i])
+# 구글링버전
+def DFS(gr, start):
+    for i in gr[start]:
+        if i not in visited:
+            visited.append(i)
+            DFS(gr, i)
 
 T = int(input())
 node = int(input())
@@ -30,5 +38,4 @@ visited = []
 DFS(graph, 1)
 
 print(len(visited)-1)
-
 
