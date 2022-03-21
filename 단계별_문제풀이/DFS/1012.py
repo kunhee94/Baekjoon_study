@@ -1,115 +1,47 @@
 import sys
 sys.stdin =open("input.txt", "r")
-#
-# T = int(input())
-#
-# for tc in range(T):
-#     M, N, K = map(int, input().split())
-#     arr = [[0]*M for _ in range(N)]
-#     # 지렁이 체크
-#     visited = [[0]*M for _ in range(N)]
-#     # 결과
-#     cnt = 0
-#     # 델타 검색 상우하좌
-#     dx = [-1, 0, 1, 0]
-#     dy = [0, 1, 0, -1]
-#     for _ in range(K):
-#         c, r = map(int, input().split())
-#         arr[r][c] = 1
-#     for x in range(N):
-#         for y in range(M):
-#             # 배추가 존재하고 활동하는 지렁이 없을때만 체크
-#             if arr[x][y] and visited[x][y] == 0:
-#                 worm = 0
-#                 for p in range(4):
-#                     nx = x + dx[p]
-#                     ny = y + dy[p]
-#                     # 사방에도 지렁이 없는지 체크
-#                     if 0 <= nx < N and 0 <= ny < M:
-#                         if visited[nx][ny]:
-#                             worm += 1
-#                 # 사방에도 지렁이 없으면 지렁이 놓고
-#                 if worm == 0:
-#                     cnt += 1
-#                     # 자기 포함 사방으로 지렁이 영역표시
-#                     visited[x][y] = 1
-#                     for p in range(4):
-#                         nx = x + dx[p]
-#                         ny = y + dy[p]
-#                         if 0 <= nx < N and 0 <= ny < M:
-#                             visited[nx][ny] = 1
-#                 # 사방 중 한곳에라도 지렁이 있으면 다시 자기포함 4방에 지렁이 영역표시만 함
-#                 else:
-#                     visited[x][y] = 1
-#                     for p in range(4):
-#                         nx = x + dx[p]
-#                         ny = y + dy[p]
-#                         if 0 <= nx < N and 0 <= ny < M:
-#                             visited[nx][ny] = 1
-#             # 배추가 있는데 지렁이 활동 구역이면 다시 사방에 지렁이 영역표시
-#             elif arr[x][y] and visited[x][y]:
-#                 for p in range(4):
-#                     nx = x + dx[p]
-#                     ny = y + dy[p]
-#                     if 0 <= nx < N and 0 <= ny < M:
-#                         visited[nx][ny] = 1
-#     print(cnt)
 
-
+def BFS(sx, sy):
+    Q = []
+    # visited[sx][sy] = 1
+    # 상하 좌우와 자기 자신까지 체크해야 혼자 떨어진 배추도 체크가능
+    # 델타이동 상하 좌우 중앙
+    dx = [0, -1, 1, 0, 0]
+    dy = [0, 0, 0, -1, 1]
+    Q.append([sx, sy])
+    # 지렁이 추가했는지 확인
+    s = 0
+    while Q:
+        [cx, cy] = Q.pop(0)
+        for k in range(5):
+            nx = cx + dx[k]
+            ny = cy + dy[k]
+            # 인덱스 범위 안이고 배추가 있고 지렁이가 없다면
+            if 0 <= nx <N and 0 <= ny < M and arr[nx][ny] and visited[nx][ny] == 0:
+                Q.append([nx, ny])
+                visited[nx][ny] = 1
+                s = 1
+    return s
 T = int(input())
 
 for tc in range(T):
     M, N, K = map(int, input().split())
     # 밭
     arr = [[0]*M for _ in range(N)]
-    # 지렁이 영역 체크
-    visited = [[0]*M for _ in range(N)]
-    # 지렁이 수
-    cnt = 0
-    # 델타 검색 상우하좌
-    dx = [-1, 0, 1, 0]
-    dy = [0, 1, 0, -1]
     for _ in range(K):
         c, r = map(int, input().split())
         arr[r][c] = 1
+    # 지렁이 영역 체크
+    visited = [[0]*M for _ in range(N)]
+    # 지렁이 수
+    res = 0
     for x in range(N):
         for y in range(M):
-            # 배추가 존재할때
-            if arr[x][y] and visited[x][y] == 0:
-                # 연결된 배추가 있고 그 배추에 활동하는 지렁이 있는지 체크
-                worm = 0
-                for p in range(4):
-                    nx = x + dx[p]
-                    ny = y + dy[p]
-                    if 0 <= nx < N and 0 <= ny < M:
-                        if arr[nx][ny] and visited[nx][ny]:
-                            worm += 1
-                # 사방에 배추와 연결된 지렁영역 없으면 지렁이 추가
-                if worm == 0:
-                    cnt += 1
-                    # 자기 포함 사방으로 지렁이 영역표시
-                    visited[x][y] = 1
-                    for p in range(4):
-                        nx = x + dx[p]
-                        ny = y + dy[p]
-                        if 0 <= nx < N and 0 <= ny < M:
-                            visited[nx][ny] = 1
-                # 배추와 연결된 지렁이가 있다면 자기 포함 사방에 지렁영역 표시
-                else:
-                    visited[x][y] = 1
-                    for p in range(4):
-                        nx = x + dx[p]
-                        ny = y + dy[p]
-                        if 0 <= nx < N and 0 <= ny < M:
-                            visited[nx][ny] = 1
-            # 배추가 있는데 지렁이 활동 구역이면 사방에 지렁이 영역표시
-            elif arr[x][y] and visited[x][y]:
-                for p in range(4):
-                    nx = x + dx[p]
-                    ny = y + dy[p]
-                    if 0 <= nx < N and 0 <= ny < M:
-                        visited[nx][ny] = 1
-    print(cnt)
+            if arr[x][y] and BFS(x, y):
+                res += 1
+    print(res)
+
+
 
 
 
