@@ -1,116 +1,26 @@
 import sys
-from collections import deque
 sys.stdin =open("input.txt", "r")
 
-# dx = [1,-1,0,0]
-# dy = [0,0,-1,1]
-#
-# def DFS(sx, sy):
-#     global cnt
-#     if sx == N-1 and sy == M-1:
-#         cnt += 1
-#         return
-#     for k in range(4):
-#         nx = sx + dx[k]
-#         ny = sy + dy[k]
-#         if 0 <= nx < N and 0 <= ny < M and visited[nx][ny] == 0 and arr[sx][sy] > arr[nx][ny]:
-#             visited[nx][ny] = 1
-#             DFS(nx, ny)
-#             visited[nx][ny] = 0
-# N, M = map(int,sys.stdin.readline().rstrip().split())
-# arr = [list(map(int, sys.stdin.readline().split()))for _ in range(N)]
-# cnt = 0
-# visited = [[0]*M for _ in range(N)]
-# DFS(0,0)
-# print(cnt)
 
+dx = [1,-1,0,0]
+dy = [0,0,-1,1]
 
-# dx = [1,-1,0,0]
-# dy = [0,0,-1,1]
-#
-# def DFS(sx, sy):
-#     global cnt
-#     if sx == N-1 and sy == M-1:
-#         cnt += 1
-#         return
-#     for k in range(4):
-#         nx = sx + dx[k]
-#         ny = sy + dy[k]
-#         if 0 <= nx < N and 0 <= ny < M and visited[nx][ny] == 0 and arr[sx][sy] > arr[nx][ny]:
-#             visited[nx][ny] = 1
-#             DFS(nx, ny)
-#             visited[nx][ny] = 0
-# N, M = map(int,sys.stdin.readline().rstrip().split())
-# arr = [list(map(int, sys.stdin.readline().split()))for _ in range(N)]
-# cnt = 0
-# lis = []
-# visited = [[0]*M for _ in range(N)]
-# DFS(0,0)
-# print(cnt)
-
-# dx = [1,-1,0,0]
-# dy = [0,0,-1,1]
-#
-# def DFS(sx, sy):
-#     global cnt
-#     if sx == N-1 and sy == M-1:
-#         cnt += 1
-#         return
-#     for k in range(4):
-#         nx = sx + dx[k]
-#         ny = sy + dy[k]
-#         if 0 <= nx < N and 0 <= ny < M and visited[nx][ny] == 0 and arr[sx][sy] > arr[nx][ny]:
-#             visited[nx][ny] = 1
-#             DFS(nx, ny)
-#             visited[nx][ny] = 0
-# N, M = map(int,sys.stdin.readline().rstrip().split())
-# arr = [list(map(int, sys.stdin.readline().split()))for _ in range(N)]
-# cnt = 0
-# visited = [[0]*M for _ in range(N)]
-# DFS(0,0)
-# print(cnt)
-
-
-# dx = [1,-1,0,0]
-# dy = [0,0,-1,1]
-#
-# def DFS(sx, sy):
-#     global cnt
-#     if sx == N-1 and sy == M-1:
-#         cnt += 1
-#         return
-#     for k in range(4):
-#         nx = sx + dx[k]
-#         ny = sy + dy[k]
-#         if 0 <= nx < N and 0 <= ny < M and visited[nx][ny] == 0 and arr[sx][sy] > arr[nx][ny]:
-#             visited[nx][ny] = 1
-#             DFS(nx, ny)
-#             visited[nx][ny] = 0
-# N, M = map(int,sys.stdin.readline().rstrip().split())
-# arr = [list(map(int, sys.stdin.readline().split()))for _ in range(N)]
-# cnt = 0
-# lis = []
-# visited = [[0]*M for _ in range(N)]
-# DFS(0,0)
-# print(cnt)
-
-
-
-dx = [1, -1, 0, 0]
-dy = [0, 0, -1, 1]
-def dfs(x, y):
-    if x == 0 and y == 0:
+def DFS(sx,sy):
+    if sx == N-1 and sy == M-1:
         return 1
-    if dp[x][y] == -1:
-        dp[x][y] = 0
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0 <= nx < m and 0 <= ny < n:
-                if s[x][y] < s[nx][ny]:
-                    dp[x][y] += dfs(nx, ny)
-    return dp[x][y]
-m, n = map(int, input().split())
-s = [list(map(int, input().split())) for i in range(m)]
-dp = [[-1] * n for i in range(m)]
-print(dfs(m - 1, n - 1))
+    # 방문했던 곳이면 지금 저장 되어있는 dp가져오기
+    if visited[sx][sy] != -1:
+        return visited[sx][sy]
+    visited[sx][sy] = 0
+    for k in range(4):
+         nx = sx + dx[k]
+         ny = sy + dy[k]
+         # 내리막길로만 이동
+         if 0 <= nx < N and 0 <= ny < M and arr[nx][ny] < arr[sx][sy]:
+             visited[sx][sy] += DFS(nx, ny)
+    return visited[sx][sy]
+
+N, M = map(int, input().split())
+arr = [list(map(int, input().split())) for _ in range(N)]
+visited = [[-1]*M for _ in range(N)]
+print(DFS(0,0))

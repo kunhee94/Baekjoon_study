@@ -1,63 +1,45 @@
 import sys
 sys.stdin =open("input.txt", "r")
 
-# N = int(input())
-# # 만들어야하는 수열
-# target = []
-# # 스택
-# stack = []
-# # 만든 수열
-# result = []
-# # 출력할것
-# final = []
-# for i in range(N):
-#     num = int(input())
-#     target.append(num)
-#     for j in range(1, N+1):
-#         if num >= j and j not in stack and j not in result:
-#             stack.append(j)
-#             final.append('+')
-#         elif target[i] < j:
-#             result.append(stack.pop())
-#             final.append('-')
-#             break
-# while stack != []:
-#     result.append(stack.pop())
-#     final.append('-')
-#
-# if result == target:
-#     print("\n".join(final))
-# else:
-#     print('NO')
-#
 
-
-N = int(input())
-# 만들어야하는 수열
-target = []
-# 스택
+n = int(input())
 stack = []
-# 만든 수열
-result = []
-# 출력할것
-final = []
-for i in range(N):
+res = []
+cnt = 1
+temp = 1
+for i in range(n):
     num = int(input())
-    target.append(num)
-    for j in range(1, N+1):
-        if num >= j and j not in stack and j not in result:
-            stack.append(j)
-            final.append('+')
-        elif target[i] < j:
-            result.append(stack.pop())
-            final.append('-')
-            break
-while stack != []:
-    result.append(stack.pop())
-    final.append('-')
-
-if result == target:
-    print("\n".join(final))
-else:
+    while cnt <= num:
+        stack.append(cnt)
+        res.append('+')
+        cnt += 1
+    if stack[-1] == num:
+        stack.pop()
+        res.append('-')
+    else:
+        temp = 0
+        break
+if temp == 0:
     print('NO')
+else:
+    for i in res:
+        print(i)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
