@@ -1,38 +1,30 @@
 import sys
 from collections import deque
-sys.stdin = open("input.txt", "r")
-
+sys.stdin = open("input.txt","r")
 
 S = int(input())
 
 Q = deque()
-visited = [0]*1000
-# visited[1] = 1
-# 현 화면
-res = 'e'
-# 클립보드
-Q.append((res,0))
-# 시간
-final_time = 0
+Q.append((1, 0, 0))
+res = 0
+visited = [[0]*1001 for _ in range(1001)]
+visited[1][0] = 1
 while Q:
-    clib, time = Q.popleft()
-    if len(clib) == S:
-        final_time = time
+    now, clib, time = Q.popleft()
+    if now == S:
+        res = time
         break
-    if visited[len(clib)] == 0:
-        # 복사해서 클립보드에 넣기
-        Q.append((res+clib, time+1))
-        # 클립보드에 있는 모든 이모티콘 화면에 붙여넣기
-        copy = res+clib
-        Q.append((copy, time+1))
-        # 화면에 있는 이모티콘하나 삭제
-        res = res[:-1]
-        Q.append((res, time+1))
-    visited[len(clib)] = 1
+    if now+clib <= 1000:
+        # 복사 저장
+        if visited[now][now] == 0:
+            Q.append((now, now, time+1))
+            visited[now][now] = 1
+        # 붙여넣기
+        if clib != 0 and visited[now+clib][clib] == 0:
+            visited[now + clib][clib] = 1
+            Q.append((now+clib, clib, time+1))
+        if now-1 >= 0 and visited[now-1][clib] == 0:
+            visited[now - 1][clib] = 1
+            Q.append((now-1, clib, time+1))
 
-print(final_time)
-
-
-
-
-
+print(res)
